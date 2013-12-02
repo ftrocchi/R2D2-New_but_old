@@ -35,4 +35,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
 #include "C:\Users\Frank\Documents\Arduino\I2C_Logic\I2C_Logic.ino"
+#include "C:\Users\Frank\Documents\Arduino\I2C_Logic\I2C_Common.h"
+#include "C:\Users\Frank\Documents\Arduino\I2C_Logic\PSI.cpp"
+#include "C:\Users\Frank\Documents\Arduino\I2C_Logic\PSI.h"
 #endif

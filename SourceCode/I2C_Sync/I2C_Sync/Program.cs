@@ -7,7 +7,7 @@ namespace I2C_Sync
     class Program
     {
         const string sourcePath = @"C:\Users\Frank\Documents\Arduino";
-        const string destinationPath = @"C:\Users\Frank\Documents\GitHub\R2D2";
+        const string destinationPath = @"C:\Users\Frank\Documents\GitHub\R2D2\SourceCode";
 
         static void Main()
         {

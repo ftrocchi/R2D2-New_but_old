@@ -23,19 +23,23 @@ class PSI
 		int slideDirection;
 		int maxStage;
 		unsigned long lastTimeCheck;
+		I2C_PSI_Mode::Value currentMode;
 	
 		void ResetDelays(int first, int second, int transition);
+		void Animate();	
+
+		// COMMANDS
+		void On();
+		void Off();
+		void SetBrightness(int brightness);
+		void SetMode(I2C_PSI_Mode::Value mode);
 
 	public:
 		PSI(I2C_DeviceAddress::Value i2cAddress, LedControl *led, int deviceIndex, int first, int second, int transition);
 		~PSI();
 	
 		void ProcessCommand();
-  
-		void On();
-		void Off();
-		void SetBrightness(int brightness);
-		void Animate();	
+		void Update();
 };
 
 #endif

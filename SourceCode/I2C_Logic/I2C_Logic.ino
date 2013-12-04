@@ -39,8 +39,9 @@ void setup()
 
 void loop()
 {
-//    psi.Animate();
-//    delay(10);
+#ifdef RLD
+	psi.Update();
+#endif
 }
 
 void receiveEvent(int eventCode)

@@ -49,6 +49,10 @@ void PSI::Update()
 			AnimateNormal();
 			break;
 
+		case I2C_PSI_Mode::March:
+			AnimateMarch();
+			break;
+
 		case I2C_PSI_Mode::Spin:
 			AnimateSpin();
 			break;
@@ -113,6 +117,9 @@ void PSI::ResetModes(int first, int second, int transition)
 	maxStage = 8;
 	lastTimeCheck = 0;
 
+	// march
+	firstColor = true;
+
 	// spin
 	spinState = 0;
 
@@ -165,6 +172,40 @@ void PSI::AnimateNormal()
 // ----------------------------------------------------------------------------
 // MARCH
 // ----------------------------------------------------------------------------
+void PSI::AnimateMarch()
+{
+	int delay = 250;
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < delay)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	ledControl->clearDisplay(device);
+
+	if (firstColor)
+	{
+		ledControl->setRow(device, 0, patternAtStage[0]);
+		ledControl->setRow(device, 1, ~patternAtStage[0]);
+		ledControl->setRow(device, 2, patternAtStage[0]);
+		ledControl->setRow(device, 3, ~patternAtStage[0]);
+		ledControl->setRow(device, 4, patternAtStage[0]);
+	}
+	else
+	{
+		ledControl->setRow(device, 0, patternAtStage[4]);
+		ledControl->setRow(device, 1, ~patternAtStage[4]);
+		ledControl->setRow(device, 2, patternAtStage[4]);
+		ledControl->setRow(device, 3, ~patternAtStage[4]);
+		ledControl->setRow(device, 4, patternAtStage[4]);
+	}
+
+	firstColor = !firstColor;
+}
 
 
 // ----------------------------------------------------------------------------

@@ -30,6 +30,10 @@ class PSI
 		int maxStage;
 
 		// march
+		void AnimateMarch();
+		bool firstColor;
+
+		// ring
 		void AnimateSpin();
 		int spinState;
 

@@ -18,21 +18,21 @@ class PSI
 		LedControl *ledControl;
 		I2C_DeviceAddress::Value i2cAddress;
 		int device;
+		unsigned long lastTimeCheck;
+		I2C_PSI_Mode::Value currentMode;
+
+		// normal
+		void ResetModes(int first, int second, int transition);
+		void AnimateNormal();	
 		int delayAtStage[9];
 		int stage;
 		int slideDirection;
 		int maxStage;
-		unsigned long lastTimeCheck;
-		I2C_PSI_Mode::Value currentMode;
-	
-		void ResetDelays(int first, int second, int transition);
-		void Animate();	
 
-		// COMMANDS
-		void On();
-		void Off();
-		void SetBrightness(int brightness);
-		void SetMode(I2C_PSI_Mode::Value mode);
+		// march
+		void AnimateSpin();
+		int spinState;
+
 
 	public:
 		PSI(I2C_DeviceAddress::Value i2cAddress, LedControl *led, int deviceIndex, int first, int second, int transition);
@@ -40,6 +40,12 @@ class PSI
 	
 		void ProcessCommand();
 		void Update();
+
+		// COMMANDS
+		void On();
+		void Off();
+		void SetBrightness(int brightness);
+		void SetMode(I2C_PSI_Mode::Value mode);
 };
 
 #endif

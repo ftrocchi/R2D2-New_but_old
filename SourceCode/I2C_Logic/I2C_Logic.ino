@@ -32,6 +32,9 @@ void setup()
     ledControl.setIntensity(1, 7);
     ledControl.setIntensity(2, 7);
     ledControl.setIntensity(3, 15);
+
+	psi.SetMode(I2C_PSI_Mode::Spin);
+
 #endif
 
     Wire.onReceive(receiveEvent);

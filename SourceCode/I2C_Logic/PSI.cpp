@@ -10,7 +10,7 @@ PSI::PSI(I2C_DeviceAddress::Value address, LedControl *led, int deviceIndex, int
 
 	  currentMode = I2C_PSI_Mode::Normal;
   
-	  ResetDelays(first, second, transition);
+	  ResetModes(first, second, transition);
 }
 
 PSI::~PSI() 
@@ -43,12 +43,21 @@ void PSI::ProcessCommand()
 
 void PSI::Update()
 {
-	// based on the mode we do something
-	Animate();
+	switch (currentMode)
+	{
+		case I2C_PSI_Mode::Normal:
+			AnimateNormal();
+			break;
 
+		case I2C_PSI_Mode::Spin:
+			AnimateSpin();
+			break;
+	}
 }
 
+// ----------------------------------------------------------------------------
 // COMMANDS
+// ----------------------------------------------------------------------------
 void PSI::On() 
 {
 	for (int row = 0; row < 6; row ++)
@@ -70,7 +79,12 @@ void PSI::SetMode(I2C_PSI_Mode::Value mode)
 	currentMode = mode;
 }
 
-void PSI::ResetDelays(int first, int second, int transition) 
+// ----------------------------------------------------------------------------
+// MODES
+// ----------------------------------------------------------------------------
+// NORMAL
+// ----------------------------------------------------------------------------
+void PSI::ResetModes(int first, int second, int transition) 
 {
 	delayAtStage[0] = first;
 	delayAtStage[1] = transition / 3; 
@@ -86,9 +100,12 @@ void PSI::ResetDelays(int first, int second, int transition)
 	slideDirection = 1;
 	maxStage = 8;
 	lastTimeCheck = 0;
+
+	// spin
+	spinState = 0;
 }
 
-void PSI::Animate() 
+void PSI::AnimateNormal() 
 {
 	unsigned long timeNow = millis();
   
@@ -120,4 +137,56 @@ void PSI::Animate()
 	ledControl->setRow(device, 3, ~patternAtStage[stage]);
 	ledControl->setRow(device, 4, patternAtStage[stage]);
 }
+
+// ----------------------------------------------------------------------------
+// MARCH
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// SPIN
+// ----------------------------------------------------------------------------
+void PSI::AnimateSpin() 
+{
+	int spinDelay = 50;
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < spinDelay)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	ledControl->clearDisplay(device);
+
+	switch (spinState) 
+	{
+		case 0 : ledControl->setRow(device, 0, B01000000); break;
+		case 1 : ledControl->setRow(device, 1, B10000000); break;
+		case 2 : ledControl->setRow(device, 2, B10000000); break;
+		case 3 : ledControl->setRow(device, 3, B10000000); break;
+		case 4 : ledControl->setRow(device, 4, B01000000); break;
+		case 5 : ledControl->setRow(device, 4, B00100000); break;
+		case 6 : ledControl->setRow(device, 4, B00010000); break;
+		case 7 : ledControl->setRow(device, 4, B00001000); break;
+		case 8 : ledControl->setRow(device, 3, B00000100); break;
+		case 9 : ledControl->setRow(device, 2, B00000100); break;
+		case 10: ledControl->setRow(device, 1, B00000100); break;
+		case 11: ledControl->setRow(device, 0, B00001000); break;
+		case 12: ledControl->setRow(device, 0, B00010000); break;
+		case 13: ledControl->setRow(device, 0, B00100000); break;
+	};
+
+	spinState++;
+	if (spinState == 14)
+		spinState = 0;
+}
+
+// ----------------------------------------------------------------------------
+// RING
+// ----------------------------------------------------------------------------
+
+
 

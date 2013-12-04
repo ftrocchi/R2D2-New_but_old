@@ -34,7 +34,9 @@ struct I2C_PSI_Mode
 	enum Value
 	{
 		Normal = 0,
-		March = 1
+		March = 1,
+		Spin = 2,
+		Ring = 3
 	};
 };
 

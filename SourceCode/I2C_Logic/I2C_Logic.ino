@@ -14,6 +14,10 @@
 #ifdef RLD
 	LedControl ledControl = LedControl(2, 4, 8, 4);
 	PSI psi(I2C_DeviceAddress::RearLogicDisplay, &ledControl, 3, 1000, 2000, 200);
+
+	unsigned long lastTimeCheck;
+	int mode =0;
+
 #endif
 
 void setup()
@@ -32,9 +36,6 @@ void setup()
 	ledControl.setIntensity(1, 7);
 	ledControl.setIntensity(2, 7);
 	ledControl.setIntensity(3, 15);
-
-	psi.SetMode(I2C_PSI_Mode::March);
-
 #endif
 
 	Wire.onReceive(receiveEvent);
@@ -44,6 +45,26 @@ void loop()
 {
 #ifdef RLD
 	psi.Update();
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < 10000)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	mode++;
+	if (mode == 6)
+		mode = 0;
+
+	psi.SetMode((I2C_PSI_Mode::Value)mode);
+
+
+
+
+
 #endif
 }
 

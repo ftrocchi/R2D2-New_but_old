@@ -52,6 +52,10 @@ void PSI::Update()
 		case I2C_PSI_Mode::Spin:
 			AnimateSpin();
 			break;
+
+		case I2C_PSI_Mode::Ring:
+			AnimateRing();
+			break;
 	}
 }
 
@@ -103,6 +107,10 @@ void PSI::ResetModes(int first, int second, int transition)
 
 	// spin
 	spinState = 0;
+
+	// ring
+	ringState = 0;
+	ringDirection = 1;
 }
 
 void PSI::AnimateNormal() 
@@ -187,6 +195,60 @@ void PSI::AnimateSpin()
 // ----------------------------------------------------------------------------
 // RING
 // ----------------------------------------------------------------------------
+void PSI::AnimateRing()
+{
+	int ringDelay = 250;
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < ringDelay)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	ledControl->clearDisplay(device);
+
+	switch (ringState)
+	{
+		case 0: 
+			ledControl->setRow(device, 0, B01111000);
+			ledControl->setRow(device, 1, B10000100);
+			ledControl->setRow(device, 2, B10000100);
+			ledControl->setRow(device, 3, B10000100);
+			ledControl->setRow(device, 4, B01111000);
+			break;
+
+		case 1: 
+			ledControl->setRow(device, 0, B00000000);
+			ledControl->setRow(device, 1, B01111000);
+			ledControl->setRow(device, 2, B01001000);
+			ledControl->setRow(device, 3, B01111000);
+			ledControl->setRow(device, 4, B00000000);
+			break;
+
+		case 2: 
+			ledControl->setRow(device, 0, B00000000);
+			ledControl->setRow(device, 1, B00000000);
+			ledControl->setRow(device, 2, B00110000);
+			ledControl->setRow(device, 3, B00000000);
+			ledControl->setRow(device, 4, B00000000);
+			break;
+	}
+
+	ringState += ringDirection;
+	if (ringState < 0)
+	{
+		ringState = 1;
+		ringDirection = 1;
+	} 
+	else if (ringState > 2)
+	{
+		ringState = 1;
+		ringDirection = -1;
+	}
+}
 
 
 

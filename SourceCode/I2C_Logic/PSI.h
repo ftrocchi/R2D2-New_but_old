@@ -33,6 +33,11 @@ class PSI
 		void AnimateSpin();
 		int spinState;
 
+		// march
+		void AnimateRing();
+		int ringState;
+		int ringDirection;
+
 
 	public:
 		PSI(I2C_DeviceAddress::Value i2cAddress, LedControl *led, int deviceIndex, int first, int second, int transition);

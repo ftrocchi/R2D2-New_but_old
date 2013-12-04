@@ -33,7 +33,7 @@ void setup()
     ledControl.setIntensity(2, 7);
     ledControl.setIntensity(3, 15);
 
-	psi.SetMode(I2C_PSI_Mode::Spin);
+	psi.SetMode(I2C_PSI_Mode::Ring);
 
 #endif
 

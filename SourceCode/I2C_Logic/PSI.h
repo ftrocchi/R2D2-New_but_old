@@ -38,6 +38,15 @@ class PSI
 		int ringState;
 		int ringDirection;
 
+		// up down
+		void AnimateUpDown();
+		int upDownState;
+		int upDownDirection;
+
+		// left right
+		void AnimateLeftRight();
+		int leftRightState;
+		int leftRightDirection;
 
 	public:
 		PSI(I2C_DeviceAddress::Value i2cAddress, LedControl *led, int deviceIndex, int first, int second, int transition);

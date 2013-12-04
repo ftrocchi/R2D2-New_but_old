@@ -56,6 +56,14 @@ void PSI::Update()
 		case I2C_PSI_Mode::Ring:
 			AnimateRing();
 			break;
+
+		case I2C_PSI_Mode::UpDown:
+			AnimateUpDown();
+			break;
+
+		case I2C_PSI_Mode::LeftRight:
+			AnimateLeftRight();
+			break;
 	}
 }
 
@@ -111,6 +119,14 @@ void PSI::ResetModes(int first, int second, int transition)
 	// ring
 	ringState = 0;
 	ringDirection = 1;
+
+	// up down
+	upDownState = 0;
+	upDownDirection = 1;
+
+	// left right
+	leftRightState = 0;
+	leftRightDirection = 1;
 }
 
 void PSI::AnimateNormal() 
@@ -156,12 +172,12 @@ void PSI::AnimateNormal()
 // ----------------------------------------------------------------------------
 void PSI::AnimateSpin() 
 {
-	int spinDelay = 50;
+	int delay = 50;
 
 	unsigned long timeNow = millis();
   
 	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < spinDelay)
+	if (timeNow - lastTimeCheck < delay)
 		return;
 
 	// set the time  
@@ -197,12 +213,12 @@ void PSI::AnimateSpin()
 // ----------------------------------------------------------------------------
 void PSI::AnimateRing()
 {
-	int ringDelay = 250;
+	int delay = 250;
 
 	unsigned long timeNow = millis();
   
 	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < ringDelay)
+	if (timeNow - lastTimeCheck < delay)
 		return;
 
 	// set the time  
@@ -249,6 +265,122 @@ void PSI::AnimateRing()
 		ringDirection = -1;
 	}
 }
+
+// ----------------------------------------------------------------------------
+// UP / DOWN
+// ----------------------------------------------------------------------------
+void PSI::AnimateUpDown()
+{
+	int delay = 250;
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < delay)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	ledControl->clearDisplay(device);
+
+	ledControl->setRow(device, upDownState, B11111111);
+
+	upDownState += upDownDirection;
+	if (upDownState < 0)
+	{
+		upDownState = 1;
+		upDownDirection = 1;
+	} 
+	else if (upDownState > 4)
+	{
+		upDownState = 3;
+		upDownDirection = -1;
+	}
+}
+
+// ----------------------------------------------------------------------------
+// LEFT / RIGHT
+// ----------------------------------------------------------------------------
+void PSI::AnimateLeftRight()
+{
+	int delay = 250;
+
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < delay)
+		return;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	ledControl->clearDisplay(device);
+
+	switch (leftRightState)
+	{
+		case 0: 
+			ledControl->setRow(device, 0, B10000000);
+			ledControl->setRow(device, 1, B10000000);
+			ledControl->setRow(device, 2, B10000000);
+			ledControl->setRow(device, 3, B10000000);
+			ledControl->setRow(device, 4, B10000000);
+			break;
+
+		case 1: 
+			ledControl->setRow(device, 0, B01000000);
+			ledControl->setRow(device, 1, B01000000);
+			ledControl->setRow(device, 2, B01000000);
+			ledControl->setRow(device, 3, B01000000);
+			ledControl->setRow(device, 4, B01000000);
+			break;
+
+		case 2: 
+			ledControl->setRow(device, 0, B00100000);
+			ledControl->setRow(device, 1, B00100000);
+			ledControl->setRow(device, 2, B00100000);
+			ledControl->setRow(device, 3, B00100000);
+			ledControl->setRow(device, 4, B00100000);
+			break;
+
+		case 3: 
+			ledControl->setRow(device, 0, B00010000);
+			ledControl->setRow(device, 1, B00010000);
+			ledControl->setRow(device, 2, B00010000);
+			ledControl->setRow(device, 3, B00010000);
+			ledControl->setRow(device, 4, B00010000);
+			break;
+
+		case 4: 
+			ledControl->setRow(device, 0, B00001000);
+			ledControl->setRow(device, 1, B00001000);
+			ledControl->setRow(device, 2, B00001000);
+			ledControl->setRow(device, 3, B00001000);
+			ledControl->setRow(device, 4, B00001000);
+			break;
+
+		case 5: 
+			ledControl->setRow(device, 0, B00000100);
+			ledControl->setRow(device, 1, B00000100);
+			ledControl->setRow(device, 2, B00000100);
+			ledControl->setRow(device, 3, B00000100);
+			ledControl->setRow(device, 4, B00000100);
+			break;
+	};
+
+	leftRightState += leftRightDirection;
+	if (leftRightState < 0)
+	{
+		leftRightState = 1;
+		leftRightDirection = 1;
+	}
+	else if (leftRightState > 5)
+	{
+		leftRightState = 4;
+		leftRightDirection = -1;
+	}
+}
+
 
 
 

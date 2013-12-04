@@ -36,7 +36,9 @@ struct I2C_PSI_Mode
 		Normal = 0,
 		March = 1,
 		Spin = 2,
-		Ring = 3
+		Ring = 3,
+		UpDown = 4,
+		LeftRight = 5
 	};
 };
 

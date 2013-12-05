@@ -52,6 +52,8 @@ class PSI
 		int leftRightState;
 		int leftRightDirection;
 
+		bool IsTimeForStateChange(int delay);
+
 	public:
 		PSI(I2C_DeviceAddress::Value i2cAddress, LedControl *led, int deviceIndex, int first, int second, int transition);
 		~PSI();

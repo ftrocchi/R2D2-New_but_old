@@ -174,18 +174,8 @@ void PSI::AnimateNormal()
 // ----------------------------------------------------------------------------
 void PSI::AnimateMarch()
 {
-	int delay = 250;
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < delay)
+	if (!IsTimeForStateChange(250))
 		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	ledControl->clearDisplay(device);
 
 	if (firstColor)
 	{
@@ -213,18 +203,8 @@ void PSI::AnimateMarch()
 // ----------------------------------------------------------------------------
 void PSI::AnimateSpin() 
 {
-	int delay = 50;
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < delay)
+	if (!IsTimeForStateChange(50))
 		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	ledControl->clearDisplay(device);
 
 	switch (spinState) 
 	{
@@ -254,18 +234,8 @@ void PSI::AnimateSpin()
 // ----------------------------------------------------------------------------
 void PSI::AnimateRing()
 {
-	int delay = 250;
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < delay)
+	if (!IsTimeForStateChange(250))
 		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	ledControl->clearDisplay(device);
 
 	switch (ringState)
 	{
@@ -312,18 +282,8 @@ void PSI::AnimateRing()
 // ----------------------------------------------------------------------------
 void PSI::AnimateUpDown()
 {
-	int delay = 250;
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < delay)
+	if (!IsTimeForStateChange(250))
 		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	ledControl->clearDisplay(device);
 
 	ledControl->setRow(device, upDownState, B11111111);
 
@@ -345,18 +305,8 @@ void PSI::AnimateUpDown()
 // ----------------------------------------------------------------------------
 void PSI::AnimateLeftRight()
 {
-	int delay = 250;
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < delay)
+	if (!IsTimeForStateChange(250))
 		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	ledControl->clearDisplay(device);
 
 	switch (leftRightState)
 	{
@@ -420,6 +370,23 @@ void PSI::AnimateLeftRight()
 		leftRightState = 4;
 		leftRightDirection = -1;
 	}
+}
+
+bool PSI::IsTimeForStateChange(int delay)
+{
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < delay)
+		return false;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	// clear the device
+	ledControl->clearDisplay(device);
+
+	return true;
 }
 
 

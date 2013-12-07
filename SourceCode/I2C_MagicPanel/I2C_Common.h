@@ -43,5 +43,13 @@ struct I2C_PSI_Mode
 	};
 };
 
+struct I2C_MagicPanel_Mode
+{
+	enum Value
+	{
+		ToggleTopBottom = 0
+	};
+};
+
 #endif
 

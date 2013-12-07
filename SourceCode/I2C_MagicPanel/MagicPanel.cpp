@@ -5,8 +5,22 @@ MagicPanel::MagicPanel(I2C_DeviceAddress::Value address, LedControl *led)
 	i2cAddress = address;
 	ledControl = led;
 
+	toggleTopBottomState = true;
 }
 
+void MagicPanel::Update()
+{
+	switch (currentmode)
+	{
+		case I2C_MagicPanel_Mode::ToggleTopBottom:
+			AnimateToggleTopBottom();
+			break;
+	};
+}
+
+// ----------------------------------------------------------------------------
+// COMMANDS
+// ----------------------------------------------------------------------------
 void MagicPanel::SetBrightness(int brightness)
 {
 	ledControl->setIntensity(0, brightness);
@@ -32,6 +46,38 @@ void MagicPanel::On()
   MapAndPrint();
 }
 
+void MagicPanel::SetMode(I2C_MagicPanel_Mode::Value mode)
+{
+	currentmode = mode;
+}
+
+// ----------------------------------------------------------------------------
+// MODES
+// ----------------------------------------------------------------------------
+void MagicPanel::AnimateToggleTopBottom()
+{
+	if (!IsTimeForStateChange(250))
+		return;
+
+	if (toggleTopBottomState)
+	{
+		for (int row = 0; row < 8; row++)
+		{
+			ledControl->setRow(0, row, B11111111);
+			ledControl->setRow(1, row, B00000000);
+		}
+	}
+	else
+	{
+		for (int row = 0; row < 8; row++)
+		{
+			ledControl->setRow(0, row, B00000000);
+			ledControl->setRow(1, row, B11111111);
+		}
+	}
+
+	toggleTopBottomState = !toggleTopBottomState;
+}
 
 void MagicPanel::MapAndPrint() 
 {
@@ -67,4 +113,22 @@ void MagicPanel::PrintGrid(){
 			ledControl->setRow(1, i-8, panel[i]);
 		}
 	}
+}
+
+bool MagicPanel::IsTimeForStateChange(int delay)
+{
+	unsigned long timeNow = millis();
+  
+	// early exit if we don't need to do anything
+	if (timeNow - lastTimeCheck < delay)
+		return false;
+
+	// set the time  
+	lastTimeCheck = timeNow;
+
+	// clear the device
+	ledControl->clearDisplay(0);
+	ledControl->clearDisplay(1);
+
+	return true;
 }

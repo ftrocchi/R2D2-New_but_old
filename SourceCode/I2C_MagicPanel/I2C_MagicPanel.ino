@@ -19,12 +19,11 @@ void setup()
 
 	magicPanel.SetBrightness(15);
 	magicPanel.Off();
+
+	magicPanel.SetMode(I2C_MagicPanel_Mode::ToggleTopBottom);
 }
 
 void loop()
 {
-	magicPanel.On();
-	delay(250);
-	magicPanel.Off();
-	delay(250);
+	magicPanel.Update();
 }

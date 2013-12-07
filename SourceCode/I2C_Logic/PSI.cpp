@@ -4,13 +4,13 @@ const int PSI::patternAtStage[9] = { B01010101, B11010101, B10010101, B10110101,
 
 PSI::PSI(I2C_DeviceAddress::Value address, LedControl *led, int deviceIndex, int first, int second, int transition) 
 {
-	  i2cAddress = address;
-	  ledControl = led;
-	  device = deviceIndex;
+	i2cAddress = address;
+	ledControl = led;
+	device = deviceIndex;
 
-	  currentMode = I2C_PSI_Mode::Normal;
+	currentMode = I2C_PSI_Mode::Normal;
   
-	  ResetModes(first, second, transition);
+	ResetModes(first, second, transition);
 }
 
 PSI::~PSI() 

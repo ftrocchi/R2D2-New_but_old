@@ -5,7 +5,8 @@ struct I2C_DeviceAddress
 {
 	enum Value 
 	{
-		RearLogicDisplay = 10
+		RearLogicDisplay = 10,
+		MagicPanel = 20
 	};
 };
 

@@ -1,6 +1,6 @@
 #ifndef _VSARDUINO_H_
 #define _VSARDUINO_H_
-//Board = Arduino Uno
+//Board = Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega328
 #define __AVR_ATmega328P__
 #define 
 #define ARDUINO 105
@@ -35,4 +35,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
 #include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\I2C_MagicPanel.ino"
+#include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\I2C_Common.h"
+#include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\MagicPanel.cpp"
+#include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\MagicPanel.h"
 #endif

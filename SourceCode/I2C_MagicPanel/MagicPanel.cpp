@@ -5,8 +5,12 @@ MagicPanel::MagicPanel(I2C_DeviceAddress::Value address, LedControl *led)
 	i2cAddress = address;
 	ledControl = led;
 
-	toggleTopBottomState = true;
 	alertState = true;
+	toggleTopBottomState = true;
+	toggleLeftRightState = true;
+	toggleQuadState = true;
+	quadCycleCounterClockwiseState = 0;
+	quadCycleClockwiseState = 0;
 	traceUpState = 7;
 	traceDownState = 0;
 	traceUpDownState = 0;
@@ -29,12 +33,28 @@ void MagicPanel::Update()
 {
 	switch (currentmode)
 	{
+		case I2C_MagicPanel_Mode::Alert:
+			AnimateAlert();
+			break;
+
 		case I2C_MagicPanel_Mode::ToggleTopBottom:
 			AnimateToggleTopBottom();
 			break;
 
-		case I2C_MagicPanel_Mode::Alert:
-			AnimateAlert();
+		case I2C_MagicPanel_Mode::ToggleLeftRight:
+			AnimateToggleLeftRight();
+			break;
+
+		case I2C_MagicPanel_Mode::ToggleQuad:
+			AnimateToggleQuad();
+			break;
+
+		case I2C_MagicPanel_Mode::QuadCycleCounterClockwise:
+			AnimateQuadCycleCounterClockwise();
+			break;
+
+		case I2C_MagicPanel_Mode::QuadCycleClockwise:
+			AnimateQuadCycleClockwise();
 			break;
 
 		case I2C_MagicPanel_Mode::TraceUp:
@@ -105,6 +125,20 @@ void MagicPanel::SetMode(I2C_MagicPanel_Mode::Value mode)
 // ----------------------------------------------------------------------------
 // MODES
 // ----------------------------------------------------------------------------
+void MagicPanel::AnimateAlert()
+{
+	if (!IsTimeForStateChange(250))
+		return;
+
+	if (alertState) 
+		On();
+	else
+		Off();
+
+	alertState = !alertState;
+}
+
+
 void MagicPanel::AnimateToggleTopBottom()
 {
 	if (!IsTimeForStateChange(250))
@@ -138,17 +172,158 @@ void MagicPanel::AnimateToggleTopBottom()
 	toggleTopBottomState = !toggleTopBottomState;
 }
 
-void MagicPanel::AnimateAlert()
+void MagicPanel::AnimateToggleLeftRight()
 {
 	if (!IsTimeForStateChange(250))
 		return;
 
-	if (alertState) 
-		On();
+	if (toggleLeftRightState)
+	{
+		SetRow(0, B11110000);
+		SetRow(1, B11110000);
+		SetRow(2, B11110000);
+		SetRow(3, B11110000);
+		SetRow(4, B11110000);
+		SetRow(5, B11110000);
+		SetRow(6, B11110000);
+		SetRow(7, B11110000);
+	}
 	else
-		Off();
+	{
+		SetRow(0, B00001111);
+		SetRow(1, B00001111);
+		SetRow(2, B00001111);
+		SetRow(3, B00001111);
+		SetRow(4, B00001111);
+		SetRow(5, B00001111);
+		SetRow(6, B00001111);
+		SetRow(7, B00001111);
+	}
 
-	alertState = !alertState;
+	MapAndPrint();
+
+	toggleLeftRightState = !toggleLeftRightState;
+}
+
+void MagicPanel::AnimateToggleQuad()
+{
+	if (!IsTimeForStateChange(250))
+		return;
+
+	if (toggleQuadState)
+	{
+		SetRow(0, B11110000);
+		SetRow(1, B11110000);
+		SetRow(2, B11110000);
+		SetRow(3, B11110000);
+		SetRow(4, B00001111);
+		SetRow(5, B00001111);
+		SetRow(6, B00001111);
+		SetRow(7, B00001111);
+	}
+	else
+	{
+		SetRow(0, B00001111);
+		SetRow(1, B00001111);
+		SetRow(2, B00001111);
+		SetRow(3, B00001111);
+		SetRow(4, B11110000);
+		SetRow(5, B11110000);
+		SetRow(6, B11110000);
+		SetRow(7, B11110000);
+	}
+
+	MapAndPrint();
+
+	toggleQuadState = !toggleQuadState;
+}
+
+void MagicPanel::AnimateQuadCycleCounterClockwise()
+{
+	if (!IsTimeForStateChange(250, true))
+		return;
+
+	switch (quadCycleCounterClockwiseState)
+	{
+		case 0:
+			SetRow(0, B00001111);
+			SetRow(1, B00001111);
+			SetRow(2, B00001111);
+			SetRow(3, B00001111);
+			break;
+
+		case 1:
+			SetRow(0, B11110000);
+			SetRow(1, B11110000);
+			SetRow(2, B11110000);
+			SetRow(3, B11110000);
+			break;
+
+		case 2:
+			SetRow(4, B11110000);
+			SetRow(5, B11110000);
+			SetRow(6, B11110000);
+			SetRow(7, B11110000);
+			break;
+
+		case 3:
+			SetRow(4, B00001111);
+			SetRow(5, B00001111);
+			SetRow(6, B00001111);
+			SetRow(7, B00001111);
+			break;
+	};
+
+	MapAndPrint();
+
+
+	quadCycleCounterClockwiseState++;
+	if (quadCycleCounterClockwiseState == 4)
+		quadCycleCounterClockwiseState = 0;
+}
+
+void MagicPanel::AnimateQuadCycleClockwise()
+{
+	if (!IsTimeForStateChange(250, true))
+		return;
+
+	switch (quadCycleClockwiseState)
+	{
+		case 0:
+			SetRow(0, B00001111);
+			SetRow(1, B00001111);
+			SetRow(2, B00001111);
+			SetRow(3, B00001111);
+			break;
+
+		case 1:
+			SetRow(0, B11110000);
+			SetRow(1, B11110000);
+			SetRow(2, B11110000);
+			SetRow(3, B11110000);
+			break;
+
+		case 2:
+			SetRow(4, B11110000);
+			SetRow(5, B11110000);
+			SetRow(6, B11110000);
+			SetRow(7, B11110000);
+			break;
+
+		case 3:
+			SetRow(4, B00001111);
+			SetRow(5, B00001111);
+			SetRow(6, B00001111);
+			SetRow(7, B00001111);
+			break;
+	};
+
+	MapAndPrint();
+
+
+	quadCycleClockwiseState--;
+	if (quadCycleClockwiseState < 0)
+		quadCycleClockwiseState = 3;
 }
 
 void MagicPanel::AnimateTraceUp()

@@ -22,13 +22,28 @@ class MagicPanel
 		I2C_MagicPanel_Mode::Value currentmode;
 		unsigned long lastTimeCheck;
 
+		// Alert
+		void AnimateAlert();
+		bool alertState;
+
 		// ToggleTopBottom
 		void AnimateToggleTopBottom();
 		bool toggleTopBottomState;
 
-		// Alert
-		void AnimateAlert();
-		bool alertState;
+		// ToggleLeftRight
+		void AnimateToggleLeftRight();
+		bool toggleLeftRightState;
+
+		// ToggleQuad
+		void AnimateToggleQuad();
+		bool toggleQuadState;
+
+		// Quad Cycle Counter Clockwise
+		void AnimateQuadCycleCounterClockwise();
+		int quadCycleCounterClockwiseState;
+
+		void AnimateQuadCycleClockwise();
+		int quadCycleClockwiseState;
 
 		// Trace Up
 		void AnimateTraceUp();

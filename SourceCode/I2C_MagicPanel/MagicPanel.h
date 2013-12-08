@@ -22,64 +22,68 @@ class MagicPanel
 		I2C_MagicPanel_Mode::Value currentmode;
 		unsigned long lastTimeCheck;
 
+		int state;
+		int state2;
+		int direction;
+
 		// Alert
 		void AnimateAlert();
-		bool alertState;
+//		bool alertState;
 
 		// ToggleTopBottom
 		void AnimateToggleTopBottom();
-		bool toggleTopBottomState;
+//		bool toggleTopBottomState;
 
 		// ToggleLeftRight
 		void AnimateToggleLeftRight();
-		bool toggleLeftRightState;
+//		bool toggleLeftRightState;
 
 		// ToggleQuad
 		void AnimateToggleQuad();
-		bool toggleQuadState;
+//		bool toggleQuadState;
 
 		// Quad Cycle Counter Clockwise
 		void AnimateQuadCycleCounterClockwise();
-		int quadCycleCounterClockwiseState;
+//		int quadCycleCounterClockwiseState;
 
 		void AnimateQuadCycleClockwise();
-		int quadCycleClockwiseState;
+//		int quadCycleClockwiseState;
 
 		// Trace Up
 		void AnimateTraceUp();
-		int traceUpState;
+//		int traceUpState;
 
 		// Trace Down
 		void AnimateTraceDown();
-		int traceDownState;
+//		int traceDownState;
 
 		// Trace Up Down
 		void AnimateTraceUpDown();
-		int traceUpDownState;
-		int traceUpDownDirection;
+//		int traceUpDownState;
+//		int traceUpDownDirection;
 
 		// Trace Left
 		void AnimateTraceLeft();
-		int traceLeftState;
+//		int traceLeftState;
 
 		// Trace Right
 		void AnimateTraceRight();
-		int traceRightState;
+//		int traceRightState;
 
 		// Trace Left Right
 		void AnimateTraceLeftRight();
-		int traceLeftRightState;
-		int traceLeftRightDirection;
+//		int traceLeftRightState;
+//		int traceLeftRightDirection;
 
 		// Single Led Test
 		void AnimateSingleLEDTest();
-		int singleLEDTestRow;
-		int singleLEDTestCol;
+//		int singleLEDTestRow;
+//		int singleLEDTestCol;
 
 		// Double LED Test
 		void AnimateDoubleLEDTest();
-		int doubleLEDTestRow;
-		int doubleLEDTestCol;
+//		int doubleLEDTestRow;
+//		int doubleLEDTestCol;
 
 		// Animate String
 		void AnimateString();
@@ -97,6 +101,7 @@ class MagicPanel
 		void ClearButDoNotShow(bool isOn);
 		void DrawLetter(char letter);
 		void FeedGridLeft(unsigned char newColumn);
+		void ResetModeVariables();
 
 	public:
 		MagicPanel(I2C_DeviceAddress::Value i2cAddress, LedControl *led);

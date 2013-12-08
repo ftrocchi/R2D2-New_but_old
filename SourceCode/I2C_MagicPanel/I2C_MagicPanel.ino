@@ -22,7 +22,7 @@ void setup()
 	magicPanel.SetBrightness(15);
 	magicPanel.Off();
 
-	magicPanel.SetMode(I2C_MagicPanel_Mode::QuadCycleClockwise);
+	magicPanel.SetMode(I2C_MagicPanel_Mode::QuadCycleCounterClockwise);
 }
 
 void loop()

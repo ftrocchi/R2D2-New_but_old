@@ -43,6 +43,14 @@ class MagicPanel
 		int traceUpDownState;
 		int traceUpDownDirection;
 
+		// Trace Left
+		void AnimateTraceLeft();
+		int traceLeftState;
+
+		// Trace Right
+		void AnimateTraceRight();
+		int traceRightState;
+
 		// Trace Left Right
 		void AnimateTraceLeftRight();
 		int traceLeftRightState;

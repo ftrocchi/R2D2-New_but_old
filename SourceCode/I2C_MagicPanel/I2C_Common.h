@@ -52,10 +52,12 @@ struct I2C_MagicPanel_Mode
 		TraceUp = 2,
 		TraceDown = 3,
 		TraceUpDown = 4,
-		TraceLeftRight = 5,
-		SingleLEDTest = 6,
-		DoubleLEDTest = 7,
-		String = 8
+		TraceLeft = 5,
+		TraceRight = 6,
+		TraceLeftRight = 7,
+		SingleLEDTest = 8,
+		DoubleLEDTest = 9,
+		String = 10
 	};
 };
 

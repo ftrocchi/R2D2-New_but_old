@@ -11,6 +11,8 @@ MagicPanel::MagicPanel(I2C_DeviceAddress::Value address, LedControl *led)
 	traceDownState = 0;
 	traceUpDownState = 0;
 	traceUpDownDirection = 1;
+	traceLeftState = 0;
+	traceRightState = 7;
 	traceLeftRightState = 0;
 	traceLeftRightDirection = 1;
 	singleLEDTestRow = 0;
@@ -45,6 +47,14 @@ void MagicPanel::Update()
 
 		case I2C_MagicPanel_Mode::TraceUpDown:
 			AnimateTraceUpDown();
+			break;
+
+		case I2C_MagicPanel_Mode::TraceLeft:
+			AnimateTraceLeft();
+			break;
+
+		case I2C_MagicPanel_Mode::TraceRight:
+			AnimateTraceRight();
 			break;
 
 		case I2C_MagicPanel_Mode::TraceLeftRight:
@@ -186,6 +196,32 @@ void MagicPanel::AnimateTraceUpDown()
 		traceUpDownState = 6;
 		traceUpDownDirection = -1;
 	}
+}
+
+void MagicPanel::AnimateTraceLeft()
+{
+	if (!IsTimeForStateChange(100, true))
+		return;
+
+	SetCol(traceLeftState, B11111111);
+	MapAndPrint();
+
+	traceLeftState++;
+	if (traceLeftState > 7)
+		traceLeftState = 0;
+}
+
+void MagicPanel::AnimateTraceRight()
+{
+	if (!IsTimeForStateChange(100, true))
+		return;
+
+	SetCol(traceRightState, B11111111);
+	MapAndPrint();
+
+	traceRightState--;
+	if (traceRightState < 0)
+		traceRightState = 7;
 }
 
 void MagicPanel::AnimateTraceLeftRight()

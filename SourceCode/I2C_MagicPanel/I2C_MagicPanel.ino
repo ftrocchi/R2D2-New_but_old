@@ -21,24 +21,26 @@ void setup()
 
 	magicPanel.SetBrightness(15);
 	magicPanel.Off();
+
+	magicPanel.SetMode(I2C_MagicPanel_Mode::TraceRight);
 }
 
 void loop()
 {
 	magicPanel.Update();
 
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < 10000)
-		return;
+	//unsigned long timeNow = millis();
+ // 
+	//// early exit if we don't need to do anything
+	//if (timeNow - lastTimeCheck < 10000)
+	//	return;
 
-	// set the time  
-	lastTimeCheck = timeNow;
+	//// set the time  
+	//lastTimeCheck = timeNow;
 
-	mode++;
-	if (mode == 9)
-		mode = 0;
+	//mode++;
+	//if (mode == 9)
+	//	mode = 0;
 
-	magicPanel.SetMode((I2C_MagicPanel_Mode::Value)mode);
+	//magicPanel.SetMode((I2C_MagicPanel_Mode::Value)mode);
 }

@@ -1,0 +1,6 @@
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\bin\Debug\Convert8x8Font.exe.config
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\bin\Debug\Convert8x8Font.exe
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\bin\Debug\Convert8x8Font.pdb
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\obj\Debug\Convert8x8Font.csprojResolveAssemblyReference.cache
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\obj\Debug\Convert8x8Font.exe
+C:\Users\Frank\Documents\Arduino\Convert8x8Font\Convert8x8Font\obj\Debug\Convert8x8Font.pdb

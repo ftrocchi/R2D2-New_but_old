@@ -26,10 +26,54 @@ class MagicPanel
 		void AnimateToggleTopBottom();
 		bool toggleTopBottomState;
 
+		// Alert
+		void AnimateAlert();
+		bool alertState;
+
+		// Trace Up
+		void AnimateTraceUp();
+		int traceUpState;
+
+		// Trace Down
+		void AnimateTraceDown();
+		int traceDownState;
+
+		// Trace Up Down
+		void AnimateTraceUpDown();
+		int traceUpDownState;
+		int traceUpDownDirection;
+
+		// Trace Left Right
+		void AnimateTraceLeftRight();
+		int traceLeftRightState;
+		int traceLeftRightDirection;
+
+		// Single Led Test
+		void AnimateSingleLEDTest();
+		int singleLEDTestRow;
+		int singleLEDTestCol;
+
+		// Double LED Test
+		void AnimateDoubleLEDTest();
+		int doubleLEDTestRow;
+		int doubleLEDTestCol;
+
+		// Animate String
+		void AnimateString();
+		bool feedGridLeftComplete;
+		int letterIndex;
+		String englishString;
+
 		void MapAndPrint();
 		void MapBoolGrid();
 		void PrintGrid();
-		bool IsTimeForStateChange(int delay);
+		bool IsTimeForStateChange(int delay, bool clear = false);
+		void SetRow(int ledRow, unsigned char rowState);
+		void SetCol(int ledCol, unsigned char colState);
+		unsigned char GetCol(int ledCol);
+		void ClearButDoNotShow(bool isOn);
+		void DrawLetter(char letter);
+		void FeedGridLeft(unsigned char newColumn);
 
 	public:
 		MagicPanel(I2C_DeviceAddress::Value i2cAddress, LedControl *led);

@@ -47,7 +47,15 @@ struct I2C_MagicPanel_Mode
 {
 	enum Value
 	{
-		ToggleTopBottom = 0
+		ToggleTopBottom = 0,
+		Alert = 1,
+		TraceUp = 2,
+		TraceDown = 3,
+		TraceUpDown = 4,
+		TraceLeftRight = 5,
+		SingleLEDTest = 6,
+		DoubleLEDTest = 7,
+		String = 8
 	};
 };
 

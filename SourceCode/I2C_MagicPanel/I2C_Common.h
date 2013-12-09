@@ -43,6 +43,18 @@ struct I2C_PSI_Mode
 	};
 };
 
+struct I2C_MagicPanel_Command
+{
+	enum Value 
+	{
+		On = 0,
+		Off = 1,
+		Brightness = 2,
+		Mode = 3,
+		Random = 4
+	};
+};
+
 struct I2C_MagicPanel_Mode
 {
 	enum Value

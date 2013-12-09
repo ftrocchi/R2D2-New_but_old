@@ -11,6 +11,9 @@
 #include <LedControl.h>
 #include "I2C_Common.h"
 
+const int RANDOMPLAY = 5000;
+const int RANDOMSLEEP = 30000;
+
 
 class MagicPanel
 {
@@ -25,67 +28,24 @@ class MagicPanel
 		int state;
 		int state2;
 		int direction;
+		bool modeActive;
+		bool randomActive;
+		unsigned long lastRandomTimeCheck;
 
-		// Alert
 		void AnimateAlert();
-//		bool alertState;
-
-		// ToggleTopBottom
 		void AnimateToggleTopBottom();
-//		bool toggleTopBottomState;
-
-		// ToggleLeftRight
 		void AnimateToggleLeftRight();
-//		bool toggleLeftRightState;
-
-		// ToggleQuad
 		void AnimateToggleQuad();
-//		bool toggleQuadState;
-
-		// Quad Cycle Counter Clockwise
 		void AnimateQuadCycleCounterClockwise();
-//		int quadCycleCounterClockwiseState;
-
 		void AnimateQuadCycleClockwise();
-//		int quadCycleClockwiseState;
-
-		// Trace Up
 		void AnimateTraceUp();
-//		int traceUpState;
-
-		// Trace Down
 		void AnimateTraceDown();
-//		int traceDownState;
-
-		// Trace Up Down
 		void AnimateTraceUpDown();
-//		int traceUpDownState;
-//		int traceUpDownDirection;
-
-		// Trace Left
 		void AnimateTraceLeft();
-//		int traceLeftState;
-
-		// Trace Right
 		void AnimateTraceRight();
-//		int traceRightState;
-
-		// Trace Left Right
 		void AnimateTraceLeftRight();
-//		int traceLeftRightState;
-//		int traceLeftRightDirection;
-
-		// Single Led Test
 		void AnimateSingleLEDTest();
-//		int singleLEDTestRow;
-//		int singleLEDTestCol;
-
-		// Double LED Test
 		void AnimateDoubleLEDTest();
-//		int doubleLEDTestRow;
-//		int doubleLEDTestCol;
-
-		// Animate String
 		void AnimateString();
 		bool feedGridLeftComplete;
 		int letterIndex;
@@ -113,6 +73,7 @@ class MagicPanel
 		void Off();
 		void On();
 		void SetMode(I2C_MagicPanel_Mode::Value mode);
+		void Random();
 };
 
 #endif

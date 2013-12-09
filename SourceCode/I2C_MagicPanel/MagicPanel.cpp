@@ -2,29 +2,13 @@
 
 MagicPanel::MagicPanel(I2C_DeviceAddress::Value address, LedControl *led)
 {
+	randomSeed(analogRead(A3)); 
+
 	i2cAddress = address;
 	ledControl = led;
 
 	ResetModeVariables();
 
-	//alertState = true;
-	//toggleTopBottomState = true;
-	//toggleLeftRightState = true;
-	//toggleQuadState = true;
-	//quadCycleCounterClockwiseState = 0;
-	//quadCycleClockwiseState = 0;
-	//traceUpState = 7;
-	//traceDownState = 0;
-	//traceUpDownState = 0;
-	//traceUpDownDirection = 1;
-	//traceLeftState = 0;
-	//traceRightState = 7;
-	//traceLeftRightState = 0;
-	//traceLeftRightDirection = 1;
-	//singleLEDTestRow = 0;
-	//singleLEDTestCol = 0;
-	//doubleLEDTestRow = 0;
-	//doubleLEDTestCol = 0;
 	feedGridLeftComplete = true;
 	letterIndex = 0;
 
@@ -33,66 +17,117 @@ MagicPanel::MagicPanel(I2C_DeviceAddress::Value address, LedControl *led)
 
 void MagicPanel::Update()
 {
-	switch (currentmode)
+	if (randomActive)
 	{
-		case I2C_MagicPanel_Mode::Alert:
-			AnimateAlert();
+		if (millis() - lastRandomTimeCheck > RANDOMPLAY && modeActive)
+		{
+			lastRandomTimeCheck = millis();
+			modeActive = false;
+			Off();
+		}
+		else if (millis() - lastRandomTimeCheck > RANDOMSLEEP && !modeActive)
+		{
+			SetMode((I2C_MagicPanel_Mode::Value)random(14));
+			lastRandomTimeCheck = millis();
+			modeActive = true;
+		}
+	}
+
+	if (modeActive)
+	{
+		switch (currentmode)
+		{
+			case I2C_MagicPanel_Mode::Alert:
+				AnimateAlert();
+				break;
+
+			case I2C_MagicPanel_Mode::ToggleTopBottom:
+				AnimateToggleTopBottom();
+				break;
+
+			case I2C_MagicPanel_Mode::ToggleLeftRight:
+				AnimateToggleLeftRight();
+				break;
+
+			case I2C_MagicPanel_Mode::ToggleQuad:
+				AnimateToggleQuad();
+				break;
+
+			case I2C_MagicPanel_Mode::QuadCycleCounterClockwise:
+				AnimateQuadCycleCounterClockwise();
+				break;
+
+			case I2C_MagicPanel_Mode::QuadCycleClockwise:
+				AnimateQuadCycleClockwise();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceUp:
+				AnimateTraceUp();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceDown:
+				AnimateTraceDown();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceUpDown:
+				AnimateTraceUpDown();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceLeft:
+				AnimateTraceLeft();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceRight:
+				AnimateTraceRight();
+				break;
+
+			case I2C_MagicPanel_Mode::TraceLeftRight:
+				AnimateTraceLeftRight();
+				break;
+
+			case I2C_MagicPanel_Mode::SingleLEDTest:
+				AnimateSingleLEDTest();
+				break;
+
+			case I2C_MagicPanel_Mode::DoubleLEDTest:
+				AnimateDoubleLEDTest();
+				break;
+
+			case I2C_MagicPanel_Mode::String:
+				AnimateString();
+				break;
+		};
+	}
+}
+
+void MagicPanel::ProcessCommand()
+{
+	randomActive = false;
+
+	I2C_MagicPanel_Command::Value command = (I2C_MagicPanel_Command::Value)Wire.read();
+
+	switch (command)
+	{
+		case I2C_MagicPanel_Command::On:
+			modeActive = false;
+			On();
 			break;
 
-		case I2C_MagicPanel_Mode::ToggleTopBottom:
-			AnimateToggleTopBottom();
+		case I2C_MagicPanel_Command::Off:
+			modeActive = false;
+			Off();
 			break;
 
-		case I2C_MagicPanel_Mode::ToggleLeftRight:
-			AnimateToggleLeftRight();
+		case I2C_MagicPanel_Command::Brightness:
+			SetBrightness(Wire.read());
 			break;
 
-		case I2C_MagicPanel_Mode::ToggleQuad:
-			AnimateToggleQuad();
+		case I2C_MagicPanel_Command::Mode:
+			SetMode((I2C_MagicPanel_Mode::Value)Wire.read());
 			break;
 
-		case I2C_MagicPanel_Mode::QuadCycleCounterClockwise:
-			AnimateQuadCycleCounterClockwise();
-			break;
-
-		case I2C_MagicPanel_Mode::QuadCycleClockwise:
-			AnimateQuadCycleClockwise();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceUp:
-			AnimateTraceUp();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceDown:
-			AnimateTraceDown();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceUpDown:
-			AnimateTraceUpDown();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceLeft:
-			AnimateTraceLeft();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceRight:
-			AnimateTraceRight();
-			break;
-
-		case I2C_MagicPanel_Mode::TraceLeftRight:
-			AnimateTraceLeftRight();
-			break;
-
-		case I2C_MagicPanel_Mode::SingleLEDTest:
-			AnimateSingleLEDTest();
-			break;
-
-		case I2C_MagicPanel_Mode::DoubleLEDTest:
-			AnimateDoubleLEDTest();
-			break;
-
-		case I2C_MagicPanel_Mode::String:
-			AnimateString();
+		case I2C_MagicPanel_Command::Random:
+			Random();
 			break;
 	};
 }
@@ -109,12 +144,14 @@ void MagicPanel::SetBrightness(int brightness)
 void MagicPanel::Off()
 {
 	ClearButDoNotShow(false);
+	ResetModeVariables();
 	MapAndPrint();
 }
 
 void MagicPanel::On()
 {
 	ClearButDoNotShow(true);
+	ResetModeVariables();
 	MapAndPrint();
 }
 
@@ -123,6 +160,15 @@ void MagicPanel::SetMode(I2C_MagicPanel_Mode::Value mode)
 	currentmode = mode;
 	ResetModeVariables();
 	Off();
+	modeActive = true;
+}
+
+void MagicPanel::Random()
+{
+	ResetModeVariables();
+	randomActive = true;
+	lastRandomTimeCheck = millis() + RANDOMSLEEP;
+	modeActive = true;
 }
 
 void MagicPanel::ResetModeVariables()
@@ -149,7 +195,6 @@ void MagicPanel::AnimateAlert()
 	if (state == 2)
 		state = 0;
 }
-
 
 void MagicPanel::AnimateToggleTopBottom()
 {
@@ -293,7 +338,6 @@ void MagicPanel::AnimateQuadCycleCounterClockwise()
 	};
 
 	MapAndPrint();
-
 
 	state++;
 	if (state == 4)

@@ -1,7 +1,7 @@
 #if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
+    #include "Arduino.h"
 #else
-	#include "WProgram.h"
+    #include "WProgram.h"
 #endif
 
 #include <Wire.h>
@@ -16,26 +16,36 @@ unsigned long lastTimeCheck = 0;
 
 void setup()
 {
+    ledControl.shutdown(0,false);
+    ledControl.shutdown(1,false);
 
-	ledControl.shutdown(0,false);
-	ledControl.shutdown(1,false);
+    magicPanel.SetBrightness(15);
+    magicPanel.Off();
 
-	magicPanel.SetBrightness(15);
-	magicPanel.Off();
+    Wire.begin(I2C_DeviceAddress::MagicPanel);
 
-	Wire.begin(I2C_DeviceAddress::MagicPanel);
+    Wire.onReceive(receiveEvent);
 
-	Wire.onReceive(receiveEvent);
-
-	magicPanel.Random();
+    //magicPanel.Random();
 }
 
 void loop()
 {
-	magicPanel.Update();
+    magicPanel.Update();
+
+    if (millis() - lastTimeCheck < 10000)
+        return;
+
+    lastTimeCheck = millis();
+
+    magicPanel.SetMode((I2C_MagicPanel_Mode::Value)mode);
+
+    mode++;
+    if (mode > 15)
+        mode = 0;
 }
 
 void receiveEvent(int eventCode)
 {
-	magicPanel.ProcessCommand();
+    magicPanel.ProcessCommand();
 }

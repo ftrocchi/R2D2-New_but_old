@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2C_HoloProjector", "..\I2C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2C_MagicPanel", "..\I2C_MagicPanel\I2C_MagicPanel.vcxproj", "{282A8B94-7679-4330-9C2C-1C81B6CEC6F3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2C_MP3", "..\I2C_MP3\I2C_MP3.vcxproj", "{2BB8AC05-26DB-4474-8234-FD5408553310}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,6 +27,10 @@ Global
 		{282A8B94-7679-4330-9C2C-1C81B6CEC6F3}.Debug|Win32.Build.0 = Debug|Win32
 		{282A8B94-7679-4330-9C2C-1C81B6CEC6F3}.Release|Win32.ActiveCfg = Release|Win32
 		{282A8B94-7679-4330-9C2C-1C81B6CEC6F3}.Release|Win32.Build.0 = Release|Win32
+		{2BB8AC05-26DB-4474-8234-FD5408553310}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2BB8AC05-26DB-4474-8234-FD5408553310}.Debug|Win32.Build.0 = Debug|Win32
+		{2BB8AC05-26DB-4474-8234-FD5408553310}.Release|Win32.ActiveCfg = Release|Win32
+		{2BB8AC05-26DB-4474-8234-FD5408553310}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

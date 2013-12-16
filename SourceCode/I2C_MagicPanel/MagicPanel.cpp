@@ -93,6 +93,10 @@ void MagicPanel::Update()
 				AnimateDoubleLEDTest();
 				break;
 
+			case I2C_MagicPanel_Mode::RandomPixel:
+				AnimateRandomPixel();
+				break;
+
 			case I2C_MagicPanel_Mode::String:
 				AnimateString();
 				break;
@@ -186,10 +190,16 @@ void MagicPanel::AnimateAlert()
 	if (!IsTimeForStateChange(250))
 		return;
 
+	int row;
+
 	if (state == 0) 
-		On();
+		for (row = 0; row<8; row++)
+			SetRow(row, B11111111);
 	else
-		Off();
+		for (row = 0; row<8; row++)
+			SetRow(row, B00000000);
+
+	MapAndPrint();
 
 	state++;
 	if (state == 2)
@@ -520,6 +530,19 @@ void MagicPanel::AnimateDoubleLEDTest()
 	}
 }
 
+void MagicPanel::AnimateRandomPixel()
+{
+	if (!IsTimeForStateChange(50, true))
+		return;
+
+	int row = random(8);
+	int col = random(8);
+
+	vMagicPanel[row][col] = true;
+
+	MapAndPrint();
+}
+
 void MagicPanel::AnimateString()
 {
 	if (!feedGridLeftComplete)
@@ -735,5 +758,5 @@ void MagicPanel::FeedGridLeft(unsigned char newColumn)
 	SetCol(0, newColumn);
 	MapAndPrint();
 
-	delay(100);
+	delay(60);
 }

@@ -46,6 +46,7 @@ class MagicPanel
 		void AnimateTraceLeftRight();
 		void AnimateSingleLEDTest();
 		void AnimateDoubleLEDTest();
+		void AnimateRandomPixel();
 		void AnimateString();
 		bool feedGridLeftComplete;
 		int letterIndex;

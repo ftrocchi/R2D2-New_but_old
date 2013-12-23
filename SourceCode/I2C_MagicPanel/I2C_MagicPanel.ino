@@ -25,24 +25,11 @@ void setup()
     Wire.begin(I2C_DeviceAddress::MagicPanel);
 
     Wire.onReceive(receiveEvent);
-
-    //magicPanel.Random();
 }
 
 void loop()
 {
     magicPanel.Update();
-
-    if (millis() - lastTimeCheck < 10000)
-        return;
-
-    lastTimeCheck = millis();
-
-    magicPanel.SetMode((I2C_MagicPanel_Mode::Value)mode);
-
-    mode++;
-    if (mode > 15)
-        mode = 0;
 }
 
 void receiveEvent(int eventCode)

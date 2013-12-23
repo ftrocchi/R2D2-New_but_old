@@ -8,7 +8,7 @@ struct I2C_DeviceAddress
         RearLogicDisplay = 10,
         MagicPanel = 20,
         PS2 = 110,
-        MP3 = 128
+        MP3 = 111
     };
 };
 

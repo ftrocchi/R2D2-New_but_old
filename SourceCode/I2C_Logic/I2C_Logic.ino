@@ -45,26 +45,6 @@ void loop()
 {
 #ifdef RLD
 	psi.Update();
-
-	unsigned long timeNow = millis();
-  
-	// early exit if we don't need to do anything
-	if (timeNow - lastTimeCheck < 10000)
-		return;
-
-	// set the time  
-	lastTimeCheck = timeNow;
-
-	mode++;
-	if (mode == 6)
-		mode = 0;
-
-	psi.SetMode((I2C_PSI_Mode::Value)mode);
-
-
-
-
-
 #endif
 }
 

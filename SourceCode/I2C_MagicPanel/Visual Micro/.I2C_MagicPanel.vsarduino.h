@@ -1,7 +1,7 @@
 #ifndef _VSARDUINO_H_
 #define _VSARDUINO_H_
-//Board = SparkFun Pro Micro 5V/16MHz
-#define __AVR_ATmega32U4__
+//Board = Arduino Uno
+#define __AVR_ATmega328P__
 #define 
 #define ARDUINO 105
 #define ARDUINO_MAIN
@@ -33,8 +33,8 @@ extern "C" void __cxa_pure_virtual() {;}
 //
 void receiveEvent(int eventCode);
 
-#include "C:\Program Files (x86)\Arduino\hardware\SF32u4_boards\variants\promicro\pins_arduino.h" 
-#include "C:\Program Files (x86)\Arduino\hardware\SF32u4_boards\cores\arduino\arduino.h"
+#include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
+#include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
 #include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\I2C_MagicPanel.ino"
 #include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\I2C_Common.h"
 #include "C:\Users\Frank\Documents\Arduino\I2C_MagicPanel\MagicPanel.cpp"

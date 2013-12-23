@@ -9,6 +9,7 @@ PSI::PSI(I2C_DeviceAddress::Value address, LedControl *led, int deviceIndex, int
 	device = deviceIndex;
 
 	currentMode = I2C_PSI_Mode::Normal;
+    isModeActive = true;
   
 	ResetModes(first, second, transition);
 }
@@ -43,6 +44,9 @@ void PSI::ProcessCommand()
 
 void PSI::Update()
 {
+    if (!isModeActive)
+        return;
+
 	switch (currentMode)
 	{
 		case I2C_PSI_Mode::Normal:
@@ -76,12 +80,14 @@ void PSI::Update()
 // ----------------------------------------------------------------------------
 void PSI::On() 
 {
+    isModeActive = false;
 	for (int row = 0; row < 6; row ++)
 		ledControl->setRow(device, row, 255);
 }
 
 void PSI::Off() 
 {
+    isModeActive = false;
 	ledControl->clearDisplay(device);
 }
 
@@ -92,6 +98,7 @@ void PSI::SetBrightness(int brightness)
 
 void PSI::SetMode(I2C_PSI_Mode::Value mode)
 {
+    isModeActive = true;
 	currentMode = mode;
 }
 

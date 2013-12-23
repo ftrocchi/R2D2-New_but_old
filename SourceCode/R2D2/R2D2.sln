@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2C_MP3", "..\I2C_MP3\I2C_M
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2C_PS2", "..\I2C_PS2\I2C_PS2.vcxproj", "{89B67DB0-26A2-4495-ACF8-E5BEBAC5E23E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R2D2_Receiver", "..\R2D2_Receiver\R2D2_Receiver.vcxproj", "{B42FC6C8-7600-4DAB-83EB-1B10FEAEB247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,10 @@ Global
 		{89B67DB0-26A2-4495-ACF8-E5BEBAC5E23E}.Debug|Win32.Build.0 = Debug|Win32
 		{89B67DB0-26A2-4495-ACF8-E5BEBAC5E23E}.Release|Win32.ActiveCfg = Release|Win32
 		{89B67DB0-26A2-4495-ACF8-E5BEBAC5E23E}.Release|Win32.Build.0 = Release|Win32
+		{B42FC6C8-7600-4DAB-83EB-1B10FEAEB247}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B42FC6C8-7600-4DAB-83EB-1B10FEAEB247}.Debug|Win32.Build.0 = Debug|Win32
+		{B42FC6C8-7600-4DAB-83EB-1B10FEAEB247}.Release|Win32.ActiveCfg = Release|Win32
+		{B42FC6C8-7600-4DAB-83EB-1B10FEAEB247}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,7 @@ struct I2C_DeviceAddress
     enum Value 
     {
         RearLogicDisplay = 10,
+        FrontLogicDisplay = 11,
         MagicPanel = 20,
         PS2 = 110,
         MP3 = 111
